@@ -1,0 +1,279 @@
+<!-- Indique au navigateur qu'on utilise le HTML5 -->
+<!DOCTYPE html>
+
+<!-- Balise racine, lang="fr" = le contenu est en français (utile pour l'accessibilité) -->
+<html lang="fr">
+<head>
+  <!-- Encodage UTF-8 : permet d'afficher les accents (é, à, ç...) correctement -->
+  <meta charset="UTF-8">
+
+  <!-- Rend le site adapté aux écrans mobile/tablette (responsive) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Titre affiché dans l'onglet du navigateur -->
+  <title>Portfolio — Étudiante en développement web</title>
+
+  <!-- Ces deux lignes chargent des polices d'écriture personnalisées (Google Fonts) -->
+  <!-- "preconnect" accélère le chargement en se connectant au serveur des polices en avance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- On importe deux polices : Space Grotesk (titres) et Inter (texte courant) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Relie notre feuille de style externe (tout le design est dedans) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== BARRE DE NAVIGATION (en haut, reste collée quand on scroll) ===== -->
+  <header>
+    <nav>
+      <!-- Le logo/nom, avec le point stylisé en vert via <span> -->
+      <div class="logo">Assia<span>.</span></div>
+
+      <!-- Liens de menu, chacun pointe vers une section grâce à son id (#about, #skills...) -->
+      <div class="nav-links">
+        <a href="#about">À propos</a>
+        <a href="#skills">Compétences</a>
+        <a href="#formation">Formation</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== SECTION HERO (grand bloc d'introduction en haut de page) ===== -->
+    <section class="hero">
+      <!-- "wrap" limite la largeur du contenu, "hero-grid" organise texte + photo en 2 colonnes -->
+      <div class="wrap hero-grid">
+
+        <!-- ----- Colonne de gauche : texte de présentation ----- -->
+        <div>
+          <!-- Petit badge "Disponible pour un stage" en haut -->
+          <div class="eyebrow">Disponible pour un stage</div>
+
+          <!-- Titre principal. Les <span> permettent de colorer certains mots différemment (voir CSS : accent1, accent2) -->
+          <h1>Je code des <span class="accent1">trucs</span><br>qui ont de <span class="accent2">l'allure</span>.</h1>
+
+          <!-- Paragraphe de présentation -->
+          <p class="lead">
+            Salut, moi c'est <strong style="color:var(--white)">Assia</strong> — étudiante en développement web.
+            J'apprends à transformer des idées en interfaces qui marchent (et qui sont sympas à regarder).
+          </p>
+
+          <!-- Bouton "Me contacter" : ouvre Gmail dans un nouvel onglet avec l'adresse déjà remplie -->
+          <!-- target="_blank" = ouvre un nouvel onglet, rel="noopener" = sécurité recommandée avec target="_blank" -->
+          <div class="cta-row">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=assia.moussa212@gmail.com" target="_blank" rel="noopener" class="btn btn-primary">Me contacter</a>
+          </div>
+        </div>
+
+        <!-- ----- Colonne de droite : photo de profil ----- -->
+        <div class="photo-wrap">
+          <!-- "blob" = la forme colorée animée derrière la photo (voir l'animation "morph" dans le CSS) -->
+          <div class="blob"></div>
+
+          <div class="photo-frame">
+            <!-- L'image de profil. Le nom du fichier doit être "photo.jpg" et être dans le même dossier que index.html -->
+            <!-- onerror = si l'image ne se charge pas, on la cache et on affiche le message de secours juste en dessous -->
+            <img src="photo.jpg" alt="Photo de Assia"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+            <!-- Message affiché uniquement si la photo n'est pas trouvée (display:none par défaut) -->
+            <div class="photo-placeholder" style="display:none;">
+              <span class="emoji">📸</span>
+              Ajoutez "photo.jpg" dans ce dossier
+            </div>
+          </div>
+
+          <!-- Petites étiquettes décoratives autour de la photo -->
+          <div class="sticker sticker-1">&lt;/&gt; en cours</div>
+          <div class="sticker sticker-2">☕ x4 / jour</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== SECTION A PROPOS ===== -->
+    <!-- id="about" correspond au lien "À propos" du menu -->
+    <section id="about">
+      <div class="wrap">
+        <!-- "reveal" = classe utilisée par le script JS pour faire apparaître le bloc en fondu au scroll -->
+        <div class="section-head reveal">
+          <div class="section-num">01 — À propos</div>
+          <h2>Qui je suis</h2>
+        </div>
+        <p class="about-text reveal">
+          Je suis étudiante en <strong>développement web</strong>, curieuse de nature et j'aime comprendre comment
+          les choses fonctionnent sous le capot. Je suis en train de construire mes bases en HTML, CSS et JavaScript,
+          avec l'objectif de créer des sites et applications à la fois fonctionnels et agréables à utiliser.
+          Ce portfolio évoluera au fil de mes projets — c'est un bon endroit pour commencer !
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== SECTION COMPETENCES ===== -->
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="section-num">02 — Compétences</div>
+          <h2>Ce que j'apprends à maîtriser</h2>
+        </div>
+
+        <!-- "skills-grid" organise les cartes en grille responsive (voir CSS) -->
+        <div class="skills-grid reveal">
+
+          <!-- Chaque carte a sa propre couleur via la variable CSS --card-color, définie ici en inline -->
+          <div class="skill-card" style="--card-color:#FF4F9A;">
+            <div class="skill-dot"></div>
+            <h3>HTML</h3>
+            <p>Structurer le contenu</p>
+          </div>
+          <div class="skill-card" style="--card-color:#4FD1FF;">
+            <div class="skill-dot"></div>
+            <h3>CSS</h3>
+            <p>Mettre en forme, animer</p>
+          </div>
+          <div class="skill-card" style="--card-color:#E9FF6B;">
+            <div class="skill-dot"></div>
+            <h3>JavaScript</h3>
+            <p>Rendre les pages interactives</p>
+          </div>
+          <div class="skill-card" style="--card-color:#8B5CF6;">
+            <div class="skill-dot"></div>
+            <h3>Git & GitHub</h3>
+            <p>Versionner mon code</p>
+          </div>
+          <div class="skill-card" style="--card-color:#FF4F9A;">
+            <div class="skill-dot"></div>
+            <h3>Responsive Design</h3>
+            <p>Adapter à tous les écrans</p>
+          </div>
+          <div class="skill-card" style="--card-color:#4FD1FF;">
+            <div class="skill-dot"></div>
+            <h3>Figma</h3>
+            <p>Prototyper une interface</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION FORMATION (timeline / frise chronologique) ===== -->
+    <section id="formation">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="section-num">03 — Parcours</div>
+          <h2>Ma formation</h2>
+        </div>
+
+        <!-- "timeline" affiche une ligne verticale reliant chaque étape (voir CSS ::before) -->
+        <div class="timeline reveal">
+
+          <!-- Étape 1 : formation actuelle -->
+          <div class="timeline-item">
+            <div class="date">2025 — aujourd'hui</div>
+            <h3>Formation en développement web</h3>
+            <p>Jules Ferry — apprentissage du HTML, CSS, JavaScript et des bonnes pratiques du web.</p>
+          </div>
+
+          <!-- Étape 2 : expérience précédente (alternance) -->
+          <div class="timeline-item">
+            <div class="date">Avant</div>
+            <h3>Alternance chez BiFitness et BiDigital</h3>
+            <p>J'ai réalisé une alternance chez BiFitness puis chez BiDigital, où j'ai pu mettre en pratique mes compétences sur des projets concrets et monter en compétence.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SECTION CONTACT ===== -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact-card reveal">
+          <h2>Discutons de votre projet 👋</h2>
+          <p>Ouverte aux stages, aux collaborations et aux échanges autour du développement web.</p>
+
+          <!-- ===== FORMULAIRE DE CONTACT =====
+               "action" pointe vers Formspree, un service gratuit qui reçoit les
+               réponses du formulaire et te les transfère par email.
+               IMPORTANT : remplace "TON_ID_FORMSPREE" ci-dessous par ton propre
+               identifiant une fois inscrite sur https://formspree.io (voir explications
+               données à part). Sans ça, le formulaire ne pourra pas envoyer les messages. -->
+          <form action="https://formspree.io/f/xjgnvooj" method="POST" class="contact-form">
+
+            <!-- Champ caché : sert de titre à l'email que tu recevras -->
+            <input type="hidden" name="_subject" value="Nouveau message depuis le portfolio">
+
+            <!-- Champ Nom : "required" empêche l'envoi si le champ est vide -->
+            <div class="form-group">
+              <label for="name">Nom complet</label>
+              <input type="text" id="name" name="name" placeholder="Jean Dupont" required>
+            </div>
+
+            <!-- Champ Email : type="email" vérifie automatiquement le format (ex: exemple@mail.com) -->
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="jean.dupont@entreprise.com" required>
+            </div>
+
+            <!-- Champ Entreprise : facultatif (pas de "required"), utile pour identifier le recruteur -->
+            <div class="form-group">
+              <label for="company">Entreprise (facultatif)</label>
+              <input type="text" id="company" name="company" placeholder="Nom de votre entreprise">
+            </div>
+
+            <!-- Champ Message : textarea = zone de texte multi-lignes -->
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Bonjour Assia, votre profil nous intéresse pour..." required></textarea>
+            </div>
+
+            <!-- Bouton d'envoi : type="submit" déclenche l'envoi du formulaire -->
+            <button type="submit" class="btn btn-primary">Envoyer le message</button>
+          </form>
+
+          <!-- Alternative : garder aussi le lien mail direct, pour celles et ceux qui préfèrent -->
+          <div class="contact-links">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=assia.moussa212@gmail.com" target="_blank" rel="noopener">✉️ Ou m'écrire directement par email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== PIED DE PAGE ===== -->
+  <footer>
+    <!-- <span id="year"></span> sera rempli automatiquement par le JavaScript ci-dessous -->
+    <div class="wrap">Fait avec 💜 par Assia — <span id="year"></span></div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Insère automatiquement l'année en cours dans le pied de page (ex: 2026)
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ----- Animation d'apparition en fondu au scroll -----
+    // On sélectionne tous les éléments ayant la classe "reveal"
+    const revealEls = document.querySelectorAll('.reveal');
+
+    // Un "IntersectionObserver" surveille quand un élément entre dans la zone visible de l'écran
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // Si l'élément est visible à l'écran...
+        if (entry.isIntersecting){
+          // ...on lui ajoute la classe "in" qui déclenche l'animation en CSS (opacité + déplacement)
+          entry.target.classList.add('in');
+          // On arrête de surveiller cet élément une fois l'animation jouée (évite de la rejouer inutilement)
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 }); // se déclenche dès que 15% de l'élément est visible
+
+    // On demande à l'observer de surveiller chaque élément "reveal"
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

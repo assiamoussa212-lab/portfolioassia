@@ -1,0 +1,563 @@
+/* =========================================================
+   VARIABLES DE COULEURS (on les définit une fois, on les
+   réutilise partout avec var(--nom). Pratique pour tout
+   changer d'un coup si besoin.
+   ========================================================= */
+:root{
+  --navy: #17182B;      /* couleur de fond principale (bleu très foncé) */
+  --navy-2: #1F2138;     /* fond légèrement plus clair (cartes, header) */
+  --purple: #8B5CF6;     /* violet, utilisé dans les dégradés */
+  --pink: #FF4F9A;       /* rose, couleur d'accent */
+  --lime: #E9FF6B;       /* vert citron, couleur d'accent principale */
+  --sky: #4FD1FF;        /* bleu ciel, utilisé dans les dégradés */
+  --white: #FBFAFF;      /* blanc cassé pour le texte */
+  --muted: #A9A7C7;      /* gris/mauve clair pour le texte secondaire */
+  --radius: 20px;        /* arrondi utilisé par défaut (pas utilisé partout ici) */
+}
+
+/* =========================================================
+   RESET DE BASE : on remet à zéro les styles par défaut
+   du navigateur pour repartir sur une base propre
+   ========================================================= */
+*{
+  box-sizing:border-box; /* la largeur/hauteur d'un élément inclut son padding et sa bordure */
+  margin:0;                /* supprime les marges par défaut */
+  padding:0;                /* supprime les espacements internes par défaut */
+}
+
+html{
+  scroll-behavior:smooth; /* fait défiler la page en douceur quand on clique sur un lien du menu */
+}
+
+body{
+  background:var(--navy);         /* couleur de fond de toute la page */
+  color:var(--white);              /* couleur du texte par défaut */
+  font-family:'Inter', sans-serif; /* police utilisée pour le texte courant */
+  line-height:1.6;                 /* espace entre les lignes de texte */
+  overflow-x:hidden;               /* empêche une barre de défilement horizontale accidentelle */
+}
+
+/* Les titres et le logo utilisent une police différente, plus "moderne" */
+h1,h2,h3, .logo{
+  font-family:'Space Grotesk', sans-serif;
+}
+
+/* Par défaut, les liens <a> gardent la couleur du texte autour d'eux et n'ont pas de soulignement */
+a{ color:inherit; text-decoration:none; }
+
+/* "wrap" = conteneur qui centre le contenu et l'empêche de trop s'étirer sur grand écran */
+.wrap{
+  max-width:1080px;
+  margin:0 auto;    /* centre horizontalement */
+  padding:0 24px;    /* petite marge à gauche/droite sur mobile */
+}
+
+/* =========================================================
+   BARRE DE NAVIGATION (header)
+   ========================================================= */
+header{
+  position:sticky;    /* reste collée en haut de l'écran même quand on scroll */
+  top:0;
+  z-index:50;          /* passe au-dessus du reste du contenu */
+  backdrop-filter: blur(10px); /* flou du fond derrière la barre (effet "verre dépoli") */
+  background:rgba(23,24,43,0.75); /* fond semi-transparent */
+  border-bottom:1px solid rgba(255,255,255,0.06); /* fine ligne de séparation en bas */
+}
+
+nav{
+  display:flex;                   /* aligne logo et liens sur la même ligne */
+  align-items:center;              /* centre verticalement */
+  justify-content:space-between;   /* logo à gauche, liens à droite */
+  padding:18px 24px;
+  max-width:1080px;
+  margin:0 auto;
+}
+
+.logo{
+  font-weight:700;
+  font-size:1.15rem;
+  letter-spacing:-0.02em; /* resserre légèrement les lettres */
+}
+.logo span{ color:var(--lime); } /* colore uniquement le point après "Assia" */
+
+.nav-links{
+  display:flex;
+  gap:28px;           /* espace entre chaque lien */
+  font-weight:500;
+  font-size:0.95rem;
+}
+.nav-links a{
+  color:var(--muted);
+  transition:color .2s ease; /* changement de couleur en douceur au survol */
+  position:relative;          /* nécessaire pour positionner le petit trait ci-dessous */
+}
+.nav-links a:hover, .nav-links a:focus-visible{ color:var(--white); }
+
+/* Petit trait qui apparaît sous le lien survolé (soulignement animé) */
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  left:0; bottom:-6px;
+  width:0; height:2px;
+  background:var(--lime);
+  transition:width .25s ease; /* le trait "grandit" progressivement */
+}
+.nav-links a:hover::after{ width:100%; }
+
+/* Sur petit écran (mobile), on cache le menu pour ne pas surcharger l'affichage */
+@media (max-width:640px){
+  .nav-links{ display:none; }
+}
+
+/* =========================================================
+   SECTION HERO (grand bloc d'intro avec titre + photo)
+   ========================================================= */
+.hero{
+  padding:88px 0 96px; /* espace en haut et en bas */
+  position:relative;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.2fr 0.8fr; /* 2 colonnes : texte un peu plus large que la photo */
+  gap:56px;
+  align-items:center;
+}
+
+/* Sur petit écran, on passe en une seule colonne (texte au-dessus, photo en dessous) */
+@media (max-width:800px){
+  .hero-grid{ grid-template-columns:1fr; }
+  .hero{ padding:56px 0 64px; }
+}
+
+/* Badge "Disponible pour un stage" */
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:0.82rem;
+  font-weight:600;
+  color:var(--lime);
+  background:rgba(233,255,107,0.08);       /* fond vert très transparent */
+  border:1px solid rgba(233,255,107,0.25);
+  padding:6px 14px;
+  border-radius:999px; /* forme de pilule (bords totalement arrondis) */
+  margin-bottom:22px;
+}
+/* Petit point rond lumineux avant le texte du badge */
+.eyebrow::before{
+  content:'';
+  width:7px; height:7px;
+  border-radius:50%;
+  background:var(--lime);
+  box-shadow:0 0 8px var(--lime); /* effet de lueur autour du point */
+}
+
+.hero h1{
+  font-size:clamp(2.3rem, 5vw, 3.6rem); /* taille qui s'adapte entre 2.3rem et 3.6rem selon l'écran */
+  line-height:1.08;
+  font-weight:700;
+  letter-spacing:-0.02em;
+}
+
+.hero h1 .accent1{ color:var(--pink); } /* colore le mot "trucs" en rose */
+.hero h1 .accent2{
+  /* Dégradé de couleur appliqué directement sur le texte */
+  background:linear-gradient(90deg, var(--sky), var(--purple));
+  -webkit-background-clip:text; /* le dégradé "découpe" la forme du texte (compatibilité Safari/Chrome) */
+  background-clip:text;
+  color:transparent; /* on rend le texte transparent pour ne voir que le dégradé à travers */
+}
+
+.hero p.lead{
+  margin-top:22px;
+  font-size:1.08rem;
+  color:var(--muted);
+  max-width:480px; /* empêche le paragraphe d'être trop large et donc dur à lire */
+}
+
+.cta-row{
+  display:flex;
+  gap:14px;
+  margin-top:34px;
+  flex-wrap:wrap; /* les boutons passent à la ligne si l'écran est trop étroit */
+}
+
+/* Style commun à tous les boutons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 24px;
+  border-radius:999px; /* forme de pilule */
+  font-weight:600;
+  font-size:0.95rem;
+  cursor:pointer;
+  border:none;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn:hover{ transform:translateY(-2px); } /* le bouton remonte légèrement au survol */
+
+/* Bouton principal (vert, rempli) */
+.btn-primary{
+  background:var(--lime);
+  color:var(--navy);
+  box-shadow:0 8px 24px rgba(233,255,107,0.18); /* légère ombre colorée */
+}
+/* Bouton secondaire (transparent, juste un contour) — non utilisé actuellement mais dispo */
+.btn-ghost{
+  background:transparent;
+  color:var(--white);
+  border:1px solid rgba(255,255,255,0.2);
+}
+.btn-ghost:hover{ border-color:var(--white); }
+
+/* ---------- Photo de profil et sa forme animée ---------- */
+.photo-wrap{
+  position:relative;   /* nécessaire pour positionner le blob et les stickers par-dessus */
+  justify-self:center;  /* centre la photo dans sa colonne */
+  width:280px;
+  height:280px;
+}
+
+/* La forme colorée en arrière-plan de la photo, qui change lentement de forme */
+.blob{
+  position:absolute;
+  inset:-18px; /* dépasse légèrement autour de la photo */
+  background:linear-gradient(135deg, var(--pink), var(--purple) 55%, var(--sky));
+  border-radius:63% 37% 54% 46% / 48% 42% 58% 52%; /* forme "organique" irrégulière */
+  animation: morph 9s ease-in-out infinite; /* utilise l'animation définie plus bas */
+  filter: blur(0.3px);
+}
+
+/* Définition de l'animation "morph" : la forme du blob change progressivement puis revient */
+@keyframes morph{
+  0%,100%{ border-radius:63% 37% 54% 46% / 48% 42% 58% 52%; }
+  50%{ border-radius:40% 60% 43% 57% / 60% 45% 55% 40%; }
+}
+
+/* Le cadre rond qui contient la vraie photo */
+.photo-frame{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:50%;   /* transforme le cadre carré en cercle */
+  overflow:hidden;       /* coupe tout ce qui dépasse du cercle */
+  border:5px solid var(--navy); /* petit contour de la couleur du fond, pour "détacher" la photo du blob */
+  background:var(--navy-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.photo-frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover; /* remplit le cercle sans déformer l'image (recadrage automatique) */
+  display:block;
+}
+
+/* Message affiché si la photo ne se charge pas (voir onerror dans le HTML) */
+.photo-placeholder{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  color:var(--muted);
+  font-size:0.8rem;
+  text-align:center;
+  padding:20px;
+}
+.photo-placeholder .emoji{ font-size:2.6rem; }
+
+/* Petites étiquettes décoratives ("</> en cours", "☕ x4/jour") */
+.sticker{
+  position:absolute;
+  background:var(--navy-2);
+  border:1px solid rgba(255,255,255,0.12);
+  padding:7px 13px;
+  border-radius:12px;
+  font-size:0.8rem;
+  font-weight:600;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35); /* ombre portée pour un effet "flottant" */
+}
+/* Positionnement et légère rotation de chaque étiquette pour un rendu plus naturel */
+.sticker-1{ top:-6px; right:-24px; color:var(--lime); transform:rotate(-8deg); }
+.sticker-2{ bottom:6px; left:-34px; color:var(--sky); transform:rotate(6deg); }
+
+/* Sur petit écran, on réduit la taille de la photo */
+@media (max-width:800px){
+  .photo-wrap{ width:220px; height:220px; margin-top:8px; }
+}
+
+/* =========================================================
+   STYLE COMMUN A TOUTES LES SECTIONS (About, Skills, Formation, Contact)
+   ========================================================= */
+section{ padding:80px 0; } /* espace vertical généreux entre chaque section */
+
+.section-head{
+  margin-bottom:44px;
+}
+.section-num{
+  font-family:'Space Grotesk', sans-serif;
+  font-size:0.85rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:0.04em; /* petites lettres espacées, ex: "01 — À propos" */
+}
+.section-head h2{
+  font-size:clamp(1.7rem, 3.4vw, 2.3rem); /* taille adaptative selon l'écran */
+  margin-top:6px;
+  letter-spacing:-0.01em;
+}
+
+/* ---------- Section À propos ---------- */
+#about{
+  border-top:1px solid rgba(255,255,255,0.06); /* fine ligne de séparation avec la section précédente */
+}
+.about-text{
+  max-width:640px; /* largeur limitée pour une lecture confortable */
+  color:var(--muted);
+  font-size:1.05rem;
+}
+.about-text strong{ color:var(--white); } /* les mots importants (en gras) ressortent en blanc */
+
+/* ---------- Section Compétences ---------- */
+#skills{ border-top:1px solid rgba(255,255,255,0.06); }
+
+.skills-grid{
+  display:grid;
+  /* Crée automatiquement autant de colonnes que possible, chacune faisant au moins 150px */
+  grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+  gap:16px;
+}
+
+.skill-card{
+  background:var(--navy-2);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;
+  padding:20px;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.skill-card:hover{
+  transform:translateY(-4px); /* la carte remonte légèrement au survol */
+  /* --card-color est définie individuellement sur chaque carte en HTML (style inline) */
+  border-color:var(--card-color, var(--lime)); /* si --card-color n'est pas définie, on utilise --lime par défaut */
+}
+
+/* Petit point coloré en haut de chaque carte de compétence */
+.skill-dot{
+  width:10px; height:10px;
+  border-radius:50%;
+  background:var(--card-color, var(--lime));
+  margin-bottom:12px;
+  box-shadow:0 0 10px var(--card-color, var(--lime)); /* effet de lueur */
+}
+
+.skill-card h3{
+  font-size:1rem;
+  font-weight:600;
+}
+.skill-card p{
+  font-size:0.85rem;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+/* ---------- Section Formation (timeline / frise chronologique) ---------- */
+#formation{ border-top:1px solid rgba(255,255,255,0.06); }
+
+.timeline{
+  position:relative;
+  padding-left:28px; /* laisse la place pour la ligne verticale et les points */
+}
+/* La ligne verticale qui relie toutes les étapes de la timeline */
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:6px; top:6px; bottom:6px;
+  width:2px;
+  background:linear-gradient(var(--pink), var(--sky)); /* dégradé du rose vers le bleu, de haut en bas */
+}
+
+.timeline-item{
+  position:relative;
+  margin-bottom:36px; /* espace entre chaque étape */
+}
+.timeline-item:last-child{ margin-bottom:0; } /* pas d'espace après la toute dernière étape */
+
+/* Le petit rond (point) qui marque chaque étape sur la timeline */
+.timeline-item::before{
+  content:'';
+  position:absolute;
+  left:-28px; top:4px;
+  width:14px; height:14px;
+  border-radius:50%;
+  background:var(--navy);       /* même couleur que le fond, pour un effet "creux" */
+  border:2px solid var(--lime);  /* contour vert visible */
+}
+
+.timeline-item .date{
+  font-size:0.8rem;
+  color:var(--lime);
+  font-weight:600;
+  letter-spacing:0.03em;
+}
+.timeline-item h3{
+  font-size:1.1rem;
+  margin-top:4px;
+}
+.timeline-item p{
+  color:var(--muted);
+  font-size:0.92rem;
+  margin-top:4px;
+}
+
+/* ---------- Section Contact ---------- */
+#contact{
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+
+/* La grande carte encadrée en bas de page */
+.contact-card{
+  background:linear-gradient(135deg, rgba(139,92,246,0.15), rgba(255,79,154,0.12)); /* dégradé violet/rose léger */
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:48px;
+  text-align:center;
+}
+
+@media (max-width:640px){
+  .contact-card{ padding:32px 22px; } /* moins d'espace intérieur sur mobile */
+}
+
+.contact-card h2{
+  font-size:clamp(1.5rem, 4vw, 2.1rem);
+}
+.contact-card p{
+  color:var(--muted);
+  margin-top:10px;
+}
+
+/* ---------- Formulaire de contact ---------- */
+.contact-form{
+  text-align:left;         /* le texte du formulaire reste aligné à gauche, même si la carte est centrée */
+  max-width:480px;
+  margin:32px auto 0;       /* centre le formulaire horizontalement dans la carte */
+}
+
+/* Chaque "form-group" = un label + son champ, empilés verticalement */
+.form-group{
+  margin-bottom:20px;
+}
+
+.form-group label{
+  display:block;             /* le label prend toute la largeur, donc le champ passe à la ligne suivante */
+  font-size:0.85rem;
+  font-weight:600;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+/* Style commun aux champs texte, email et à la zone de texte */
+.form-group input,
+.form-group textarea{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.04);   /* fond très légèrement plus clair que la carte */
+  color:var(--white);
+  font-family:'Inter', sans-serif;
+  font-size:0.95rem;
+  transition: border-color .2s ease, background .2s ease;
+}
+
+/* Empêche l'utilisateur d'agrandir/rétrécir la zone de texte horizontalement (seulement en hauteur) */
+.form-group textarea{
+  resize:vertical;
+}
+
+/* Style au focus (quand on clique dans le champ) : contour vert pour bien voir où on écrit */
+.form-group input:focus,
+.form-group textarea:focus{
+  outline:none;
+  border-color:var(--lime);
+  background:rgba(255,255,255,0.06);
+}
+
+/* Couleur du texte "placeholder" (exemple grisé affiché avant de taper) */
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+  color:rgba(169,167,199,0.5);
+}
+
+/* Le bouton "Envoyer" prend toute la largeur du formulaire pour bien ressortir */
+.contact-form .btn{
+  width:100%;
+  justify-content:center;
+  border:none;
+}
+
+.contact-links{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:28px;
+  flex-wrap:wrap;
+}
+
+/* Le bouton "✉️ Email" en bas de page */
+.contact-links a{
+  padding:12px 22px;
+  border-radius:999px;
+  background:var(--navy);
+  font-weight:600;
+  font-size:0.9rem;
+  border:1px solid rgba(255,255,255,0.1);
+  transition:transform .2s ease, border-color .2s ease;
+}
+.contact-links a:hover{
+  transform:translateY(-2px);
+  border-color:var(--lime);
+  color:var(--lime);
+}
+
+/* =========================================================
+   PIED DE PAGE
+   ========================================================= */
+footer{
+  padding:28px 0 40px;
+  text-align:center;
+  color:var(--muted);
+  font-size:0.82rem;
+}
+
+/* =========================================================
+   ANIMATION D'APPARITION AU SCROLL
+   (déclenchée par le JavaScript dans index.html, qui ajoute
+   la classe "in" quand l'élément devient visible à l'écran)
+   ========================================================= */
+.reveal{
+  opacity:0;                        /* invisible au départ */
+  transform:translateY(18px);        /* légèrement décalé vers le bas au départ */
+  transition:opacity .6s ease, transform .6s ease; /* animation en douceur */
+}
+.reveal.in{
+  opacity:1;         /* devient visible */
+  transform:translateY(0); /* revient à sa position normale */
+}
+
+/* Pour les personnes ayant activé "réduire les animations" dans leur système :
+   on désactive toutes les animations, par accessibilité */
+@media (prefers-reduced-motion: reduce){
+  .blob{ animation:none; }
+  .reveal{ opacity:1; transform:none; transition:none; }
+  html{ scroll-behavior:auto; }
+}
+
+/* Style du contour visible quand on navigue au clavier (accessibilité) */
+:focus-visible{
+  outline:2px solid var(--lime);
+  outline-offset:3px;
+}
